@@ -1,20 +1,13 @@
-import React from 'react';
-
-// const Index = () => {
-//   return (
-//     <div>Index Page</div>
-//   )
-// }
+import React from 'react'
+import Header from '../components/Header'
 
 class Index extends React.Component {
   render() {
     return (
       <div>
+        <Header title="Test" />
         <h2>Index Page</h2>
-        <a href="/">Home</a>
-        <a href="/blog">Blog</a>
-        <a href="/cv">CV</a>
-        <a href="/portfolio">Portfolio</a>
+        
       </div>
     )
   }

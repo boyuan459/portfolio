@@ -1,15 +1,11 @@
-import React from 'react';
-
-// const Index = () => {
-//   return (
-//     <div>Index Page</div>
-//   )
-// }
+import React from 'react'
+import Header from '../components/Header'
 
 class About extends React.Component {
   render() {
     return (
       <div>
+        <Header />
         About Page
       </div>
     )
