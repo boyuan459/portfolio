@@ -1,13 +1,20 @@
 import React from 'react'
-import Header from '../components/Header'
+import BaseLayout from '../components/layouts/BaseLayout'
 
 class Blog extends React.Component {
+
+  static getInitialProps() {
+    console.log('I am blog getInitialProps')
+    return {
+      initialData: [1,2,3,4]
+    }
+  }
+
   render() {
     return (
-      <div>
-        <Header />
+      <BaseLayout>
         Blog Page
-      </div>
+      </BaseLayout>
     )
   }
 }
