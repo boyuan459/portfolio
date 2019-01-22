@@ -19,15 +19,27 @@ class Portfolio extends React.Component {
       posts: posts.slice(0,10)
     }
   }
+
+  renderPosts() {
+    const { posts } = this.props;
+    return (
+      <ul>
+        {posts.map((item,idx) => (
+          <li key={idx}>
+            <Link as={`/portfolio/${item.id}`} href={`/portfolio?id=${item.id}`}>
+              <a>{item.title}</a>
+            </Link>
+          </li>))}
+      </ul>
+    )
+  }
+
   render() {
-    const { posts } = this.props
     
     return (
       <BaseLayout>
         Portfolio List Page
-        <ul>
-          {posts.map((item,idx) => <li key={idx}><Link href="/portfolio"><a>{item.title}</a></Link></li>)}
-        </ul>
+        {this.renderPosts()}
       </BaseLayout>
     )
   }
