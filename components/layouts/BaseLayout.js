@@ -1,15 +1,17 @@
 import React from 'react'
 import Header from '../Header'
 
-import '../../styles/main.scss'
-
 const BaseLayout = (props) => {
 
   return (
-    <React.Fragment>
+    <div className="layout-container">
       <Header />
-      {props.children}
-    </React.Fragment>
+      <main className={`cover ${props.className}`}>
+        <div className="wrapper">
+          {props.children}
+        </div>
+      </main>
+    </div>
   )
 }
 
