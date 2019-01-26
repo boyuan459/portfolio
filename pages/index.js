@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Container } from "reactstrap";
 import BaseLayout from "../components/layouts/BaseLayout";
+import Typed from 'react-typed';
 
 class Index extends React.Component {
   static async getInitialProps() {
@@ -12,9 +13,9 @@ class Index extends React.Component {
   state = {
     title: "I am index title"
   };
-  constructor() {
-    super();
-    console.log("Constructor");
+  constructor(props) {
+    super(props);
+    this.roles = ["Full Stack Developer", "React.js", "Node.js", "MySQL", "DynamoDB", "MongoDB", "ElasticSearch"];
   }
 
   componentDidMount() {
@@ -52,7 +53,7 @@ class Index extends React.Component {
                   <div className={`flipper`}>
                     <div className="back">
                       <div className="hero-section-content">
-                        <h2> Full Stack Web Developer </h2>
+                        <h2> Full Stack Developer </h2>
                         <div className="hero-section-content-intro">
                           Have a look at my portfolio and job history.
                         </div>
@@ -71,10 +72,20 @@ class Index extends React.Component {
               <Col md="6" className="hero-welcome-wrapper">
                 <div className="hero-welcome-text">
                   <h1>
-                    Welcome to the portfolio website of Filip Jerga. Get
+                    Welcome to the portfolio website of Bo Yuan. Get
                     informed, collaborate and discover projects I was working on
                     through the years!
                   </h1>
+                  <Typed
+                    strings={this.roles}
+                    typeSpeed={40}
+                    backSpeed={50}
+                    showCursor
+                    cursorChar="|"
+                    className="self-typed"
+                    loop >
+                    <input type="text" />
+                  </Typed>
                 </div>
                 <div className="hero-welcome-bio">
                   <h1>Let's take a look on my work.</h1>

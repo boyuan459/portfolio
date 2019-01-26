@@ -3,6 +3,9 @@
 //pages
 @import './index';
 
+//components
+@import './header';
+
 html, body {
   height:100%;
   width:100%;
@@ -11,4 +14,8 @@ html, body {
 
 a {
   text-decoration: none;
+}
+
+.absolute {
+  position: absolute;
 }
