@@ -52,9 +52,9 @@ class Auth {
   }
 
   logout() {
-    Cookie.remove('user', authResult.idTokenPayload)
-    Cookie.remove('jwt', authResult.idToken)
-    Cookie.remove('expiresAt', expiresAt)
+    Cookie.remove('user')
+    Cookie.remove('jwt')
+    Cookie.remove('expiresAt')
 
     this.auth0.logout({
       returnTo: '',
