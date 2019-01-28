@@ -6,7 +6,7 @@ class About extends React.Component {
   render() {
     return (
       <BaseLayout>
-        <BasePage>
+        <BasePage className="about-page">
         About Page
         </BasePage>
       </BaseLayout>

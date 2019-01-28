@@ -8,12 +8,20 @@ import {
   NavItem} from 'reactstrap';
 import Link from 'next/link'
 
+import auth0 from '../services/auth0'
+
 const BsNavLink = (props) => {
   const { route, title } = props;
   return (
     <Link href={route}>
       <a className="nav-link port-navbar-link">{title}</a>
     </Link>
+  )
+}
+
+const Login = () => {
+  return (
+    <span onClick={auth0.login} className="nav-link port-navbar-link">Login</span>
   )
 }
 
@@ -53,6 +61,10 @@ export default class Header extends React.Component {
               </NavItem>
               <NavItem className="port-navbar-item">
                 <BsNavLink route="/portfolios" title="Portfolio" />
+              </NavItem>
+              <Login />
+              <NavItem className="port-navbar-item">
+                <BsNavLink route="/logout" title="Logout" />
               </NavItem>
             </Nav>
           </Collapse>
