@@ -3,12 +3,13 @@ import Header from '../Header'
 
 const BaseLayout = (props) => {
 
+  const { className, children, isAuthenticated } = props
   return (
     <div className="layout-container">
-      <Header />
-      <main className={`cover ${props.className||''}`}>
+      <Header isAuthenticated={isAuthenticated} />
+      <main className={`cover ${className||''}`}>
         <div className="wrapper">
-          {props.children}
+          {children}
         </div>
       </main>
     </div>

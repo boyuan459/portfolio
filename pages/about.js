@@ -4,8 +4,9 @@ import BasePage from '../components/BasePage'
 
 class About extends React.Component {
   render() {
+    const { auth } = this.props
     return (
-      <BaseLayout>
+      <BaseLayout {...auth}>
         <BasePage className="about-page">
         About Page
         </BasePage>

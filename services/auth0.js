@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js'
 import Cookie from 'js-cookie'
+import jwt from 'jsonwebtoken'
 
 class Auth {
 
@@ -67,6 +68,34 @@ class Auth {
     // access token's expiry time
     let expiresAt = Cookie.get('expiresAt')
     return new Date().getTime() < expiresAt;
+  }
+
+  verifyToken(token) {
+    if (token) {
+      const decodedToken = jwt.decode(token)
+      const expiresAt = decodedToken.exp * 1000
+
+      return (decodedToken && new Date().getTime() < expiresAt) ? decodedToken : undefined
+    }
+
+    return undefined
+  }
+
+  clientAuth() {
+    const token = Cookie.get('jwt')
+    const verifiedToken = this.verifyToken(token)
+    return verifiedToken
+  }
+
+  serverAuth(req) {
+    if (req.headers.cookie) {
+      const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='))
+      if (!jwtCookie) return undefined
+
+      const token = jwtCookie.split('=')[1]
+      const verifiedToken = this.verifyToken(token)
+      return verifiedToken
+    }
   }
 }
 

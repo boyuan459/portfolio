@@ -12,8 +12,9 @@ class Blog extends React.Component {
   }
 
   render() {
+    const { auth } = this.props
     return (
-      <BaseLayout>
+      <BaseLayout {...auth}>
         <BasePage>
           Blog Page
         </BasePage>
