@@ -14,8 +14,6 @@ export default class MyApp extends App {
     }
 
     const auth = { user, isAuthenticated: !!user }
-    console.log('auth',auth)
-
     return { pageProps, auth }
   }
 

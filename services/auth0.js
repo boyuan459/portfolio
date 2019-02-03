@@ -78,26 +78,31 @@ class Auth {
   }
 
   async verifyToken(token) {
+    // console.log('verifyToken', token)
     if (token) {
       const decodedToken = jwt.decode(token, {complete: true})
+      // console.log('decodedToken kid', decodedToken.header.kid)
       const jwks = await this.getJWKS();
       // console.log('jwks', jwks)
       // console.log('jwtToken', decodedToken)
       const jwk = jwks.keys[0]
-      // console.log('jwk', jwk)
+      // console.log('jwk kid', jwk.kid)
       //build certificate
       let cert = jwk.x5c[0]
       cert = cert.match(/.{1,64}/g).join('\n')
-      cert = `-----BEGIN CERTIFICATE-----\n${cert}-----END CERTIFICATE-----\n`
+      cert = `-----BEGIN CERTIFICATE-----\n${cert}\n-----END CERTIFICATE-----\n`
  
       if (jwk.kid === decodedToken.header.kid) {
+        // console.log('cert')
+        // console.log(cert)
         try {
           const verifiedToken = jwt.verify(token, cert)
-          console.log('verifiedToken',verifiedToken)
+          // console.log('verifiedToken',verifiedToken)
           const expiresAt = verifiedToken.exp * 1000
 
           return (verifiedToken && new Date().getTime() < expiresAt) ? verifiedToken : undefined
         } catch (err) {
+          console.log('verifiedToken error', err)
           return undefined
         }
       }
@@ -113,8 +118,10 @@ class Auth {
   }
 
   async serverAuth(req) {
+    // console.log('serverAuth', req.headers.cookie)
     if (req.headers.cookie) {
       const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='))
+      // console.log('jwtCookie', jwtCookie)
       if (!jwtCookie) return undefined
 
       const token = jwtCookie.split('=')[1]
