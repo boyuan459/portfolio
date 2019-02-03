@@ -7,13 +7,14 @@ import '../styles/main.scss'
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {}
-    const user = process.browser ? auth0.clientAuth() : auth0.serverAuth(ctx.req)
-    console.log('isAuth', user)
+    const user = process.browser ? await auth0.clientAuth() : await auth0.serverAuth(ctx.req)
+    console.log('user', user)
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }
 
     const auth = { user, isAuthenticated: !!user }
+    console.log('auth',auth)
 
     return { pageProps, auth }
   }

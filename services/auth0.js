@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js'
 import Cookie from 'js-cookie'
 import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 class Auth {
 
@@ -70,30 +71,54 @@ class Auth {
     return new Date().getTime() < expiresAt;
   }
 
-  verifyToken(token) {
-    if (token) {
-      const decodedToken = jwt.decode(token)
-      const expiresAt = decodedToken.exp * 1000
+  async getJWKS() {
+    const res = await axios.get('https://boyuan.au.auth0.com/.well-known/jwks.json')
+    const jwks = res.data
+    return jwks;
+  }
 
-      return (decodedToken && new Date().getTime() < expiresAt) ? decodedToken : undefined
+  async verifyToken(token) {
+    if (token) {
+      const decodedToken = jwt.decode(token, {complete: true})
+      const jwks = await this.getJWKS();
+      // console.log('jwks', jwks)
+      // console.log('jwtToken', decodedToken)
+      const jwk = jwks.keys[0]
+      // console.log('jwk', jwk)
+      //build certificate
+      let cert = jwk.x5c[0]
+      cert = cert.match(/.{1,64}/g).join('\n')
+      cert = `-----BEGIN CERTIFICATE-----\n${cert}-----END CERTIFICATE-----\n`
+ 
+      if (jwk.kid === decodedToken.header.kid) {
+        try {
+          const verifiedToken = jwt.verify(token, cert)
+          console.log('verifiedToken',verifiedToken)
+          const expiresAt = verifiedToken.exp * 1000
+
+          return (verifiedToken && new Date().getTime() < expiresAt) ? verifiedToken : undefined
+        } catch (err) {
+          return undefined
+        }
+      }
     }
 
     return undefined
   }
 
-  clientAuth() {
+  async clientAuth() {
     const token = Cookie.get('jwt')
-    const verifiedToken = this.verifyToken(token)
+    const verifiedToken = await this.verifyToken(token)
     return verifiedToken
   }
 
-  serverAuth(req) {
+  async serverAuth(req) {
     if (req.headers.cookie) {
       const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('jwt='))
       if (!jwtCookie) return undefined
 
       const token = jwtCookie.split('=')[1]
-      const verifiedToken = this.verifyToken(token)
+      const verifiedToken = await this.verifyToken(token)
       return verifiedToken
     }
   }
