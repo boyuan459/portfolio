@@ -39,4 +39,4 @@ class About extends React.Component {
   }
 }
 
-export default withAuth(About)
+export default withAuth()(About)
