@@ -3,10 +3,10 @@ import Header from '../Header'
 
 const BaseLayout = (props) => {
 
-  const { className, children, isAuthenticated } = props
+  const { className, children, isAuthenticated, headerType = 'default' } = props
   return (
     <div className="layout-container">
-      <Header isAuthenticated={isAuthenticated} />
+      { headerType === 'index' ? <Header className="port-nav-index" isAuthenticated={isAuthenticated} /> : <Header className="port-nav-default" isAuthenticated={isAuthenticated} />}
       <main className={`cover ${className||''}`}>
         <div className="wrapper">
           {children}

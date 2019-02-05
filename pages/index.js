@@ -38,9 +38,9 @@ class Index extends React.Component {
 
   render() {
     const {posts, auth} = this.props;
-    console.log(posts);
+
     return (
-      <BaseLayout {...auth}>
+      <BaseLayout className="cover" {...auth} headerType="index">
         <div className="main-section">
           <div className="background-image">
             <img src="/static/images/background-index.png" />
