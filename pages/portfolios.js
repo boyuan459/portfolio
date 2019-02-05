@@ -1,4 +1,6 @@
 import React from 'react'
+import { Card, CardHeader, CardText, CardBody,
+  CardTitle, Button, Row, Col } from 'reactstrap'
 import BaseLayout from '../components/layouts/BaseLayout'
 import axios from 'axios'
 import {Link} from '../routes'
@@ -24,14 +26,21 @@ class Portfolio extends React.Component {
   renderPosts() {
     const { posts } = this.props;
     return (
-      <ul>
+      <Row>
         {posts.map((item,idx) => (
-          <li key={idx}>
-            <Link route={`/portfolio/${item.id}`}>
-              <a>{item.title}</a>
-            </Link>
-          </li>))}
-      </ul>
+          <Col key={idx} md="4">
+            <Card className="portfolio-card">
+              <CardHeader className="portfolio-card-header">Header</CardHeader>
+              <CardBody>
+                <p className="portfolio-card-city">Some location</p>
+                <CardTitle className="portfolio-card-title">Special Title Treatment</CardTitle>
+                <CardText className="portfolio-card-text">With supporting text below as a natural lead-in to additional content.</CardText>
+                <div className="readmore"></div>
+              </CardBody>
+            </Card>
+          </Col>
+          ))}
+      </Row>
     )
   }
 
@@ -39,8 +48,7 @@ class Portfolio extends React.Component {
     const { auth } = this.props
     return (
       <BaseLayout {...auth}>
-        <BasePage>
-        Portfolio List Page
+        <BasePage className="portfolio-page">
         {this.renderPosts()}
         </BasePage>
       </BaseLayout>
