@@ -1,5 +1,30 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { FormGroup, Label, Button } from 'reactstrap';
+import Input from '../form/Input'
+import Date from '../form/Date'
+
+const validateInputs = values => {
+  let errors = {};
+
+  Object.entries(values).forEach(([key,value]) => {
+    if (!values[key]) {
+      errors[key] = `Field ${key} is required!`
+    }
+  })
+
+  return errors;
+}
+
+const INITIAL_VALUES = {
+  title: '',
+  company: '',
+  location: '',
+  position: '',
+  description: '',
+  startDate: '',
+  endDate: ''
+}
 
 class PortfolioCreateForm extends React.Component {
   state = {
@@ -21,18 +46,8 @@ class PortfolioCreateForm extends React.Component {
     return (
       <div>
         <Formik
-          initialValues={{ email: "", password: "" }}
-          validate={values => {
-            let errors = {};
-            if (!values.email) {
-              errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid email address";
-            }
-            return errors;
-          }}
+          initialValues={INITIAL_VALUES}
+          validate={validateInputs}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
@@ -42,13 +57,16 @@ class PortfolioCreateForm extends React.Component {
         >
           {({ isSubmitting }) => (
             <Form>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
+              <Field type="text" name="title" label="Title" component={Input} />
+              <Field type="text" name="company" label="Company" component={Input} />
+              <Field type="text" name="location" label="Location" component={Input} />
+              <Field type="text" name="position" label="Position" component={Input} />
+              <Field type="textarea" name="description" label="Description" component={Input} />
+              <Field name="startDate" label="Start Date" component={Date} />
+              <Field name="endDate" label="End Date" component={Date} />
+              <Button type="submit" disabled={isSubmitting}>
+                Create
+              </Button>
             </Form>
           )}
         </Formik>
