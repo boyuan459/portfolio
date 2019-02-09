@@ -8,10 +8,17 @@ const validateInputs = values => {
   let errors = {};
 
   Object.entries(values).forEach(([key,value]) => {
-    if (!values[key]) {
+    if (!values[key] && (key !== 'startDate' && key !== 'endDate')) {
       errors[key] = `Field ${key} is required!`
     }
   })
+
+  const startDate = values.startDate
+  const endDate = values.endDate
+
+  if (startDate && endDate && endDate.isBefore(startDate)) {
+    errors.endDate = 'End date connot be before start date!'
+  }
 
   return errors;
 }
@@ -43,17 +50,14 @@ class PortfolioCreateForm extends React.Component {
     e.preventDefault();
   };
   render() {
+    const { onSubmit } = this.props
+
     return (
       <div>
         <Formik
           initialValues={INITIAL_VALUES}
           validate={validateInputs}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={onSubmit}
         >
           {({ isSubmitting }) => (
             <Form>
