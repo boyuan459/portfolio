@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { FormGroup, Label, Button } from 'reactstrap';
+import { FormGroup, Label, Button, Alert } from 'reactstrap';
 import Input from '../form/Input'
 import Date from '../form/Date'
 
@@ -50,10 +50,11 @@ class PortfolioCreateForm extends React.Component {
     e.preventDefault();
   };
   render() {
-    const { onSubmit } = this.props
+    const { onSubmit, error } = this.props
 
     return (
       <div>
+        {error && <Alert color="danger">{error}</Alert>}
         <Formik
           initialValues={INITIAL_VALUES}
           validate={validateInputs}
@@ -68,7 +69,7 @@ class PortfolioCreateForm extends React.Component {
               <Field type="textarea" name="description" label="Description" component={Input} />
               <Field name="startDate" label="Start Date" component={Date} />
               <Field name="endDate" label="End Date" component={Date} />
-              <Button type="submit" disabled={isSubmitting}>
+              <Button color="primary" type="submit" disabled={isSubmitting}>
                 Create
               </Button>
             </Form>

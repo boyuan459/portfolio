@@ -2,39 +2,38 @@ import React from 'react'
 import { Card, CardHeader, CardText, CardBody,
   CardTitle, Button, Row, Col } from 'reactstrap'
 import BaseLayout from '../components/layouts/BaseLayout'
-import axios from 'axios'
+import { getPortfolios } from '../actions'
 import {Link} from '../routes'
 import BasePage from '../components/BasePage'
 
 class Portfolio extends React.Component {
-  static async getInitialProps() {
+  static async getInitialProps({req}) {
     console.log('I am portfolio get initialProps')
-    let posts = []
+    let portfolios = []
 
     try {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
-      posts = res.data;
+      portfolios = await getPortfolios(req)
     } catch(err) {
       console.log(err)
     }
   
     return {
-      posts: posts.slice(0,10)
+      portfolios: portfolios
     }
   }
 
-  renderPosts() {
-    const { posts } = this.props;
+  renderPortfolios() {
+    const { portfolios } = this.props;
     return (
       <Row>
-        {posts.map((item,idx) => (
+        {portfolios.map((item,idx) => (
           <Col key={idx} md="4">
             <Card className="portfolio-card">
-              <CardHeader className="portfolio-card-header">Header</CardHeader>
+              <CardHeader className="portfolio-card-header">{item.position}</CardHeader>
               <CardBody>
-                <p className="portfolio-card-city">Some location</p>
-                <CardTitle className="portfolio-card-title">Special Title Treatment</CardTitle>
-                <CardText className="portfolio-card-text">With supporting text below as a natural lead-in to additional content.</CardText>
+                <p className="portfolio-card-city">{item.location}</p>
+                <CardTitle className="portfolio-card-title">{item.title}</CardTitle>
+                <CardText className="portfolio-card-text">{item.description}</CardText>
                 <div className="readmore"></div>
               </CardBody>
             </Card>
@@ -49,7 +48,7 @@ class Portfolio extends React.Component {
     return (
       <BaseLayout {...auth}>
         <BasePage className="portfolio-page">
-        {this.renderPosts()}
+        {this.renderPortfolios()}
         </BasePage>
       </BaseLayout>
     )
