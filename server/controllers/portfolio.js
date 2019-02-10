@@ -10,6 +10,18 @@ exports.getPortfolios = (req, res) => {
   })
 }
 
+exports.getPortfolioById = (req, res) => {
+  const portfolioId = req.params.id
+
+  Portfolio.findById(portfolioId, (err, portfolio) => {
+    if (err) {
+      return res.status(422).send(err)
+    }
+
+    return res.json(portfolio)
+  })
+}
+
 exports.savePortfolio = (req, res) => {
   const data = req.body
   const userId = req.user && req.user.sub

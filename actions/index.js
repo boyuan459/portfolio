@@ -54,3 +54,8 @@ export const createPortfolio = async (portfolio) => {
               .then(res => res.data)
               .catch(error => rejectPromise(error))
 }
+
+export const getPortfolioById = async (id, req) => {
+  return await axiosInstance.get(`/portfolios/${id}`)
+              .then(response => response.data)
+}

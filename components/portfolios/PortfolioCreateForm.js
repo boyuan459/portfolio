@@ -8,7 +8,8 @@ const validateInputs = values => {
   let errors = {};
 
   Object.entries(values).forEach(([key,value]) => {
-    if (!values[key] && (key !== 'startDate' && key !== 'endDate')) {
+    
+    if (!values[key] && key !== 'endDate') {
       errors[key] = `Field ${key} is required!`
     }
   })
@@ -21,16 +22,6 @@ const validateInputs = values => {
   }
 
   return errors;
-}
-
-const INITIAL_VALUES = {
-  title: '',
-  company: '',
-  location: '',
-  position: '',
-  description: '',
-  startDate: '',
-  endDate: ''
 }
 
 class PortfolioCreateForm extends React.Component {
@@ -50,13 +41,13 @@ class PortfolioCreateForm extends React.Component {
     e.preventDefault();
   };
   render() {
-    const { onSubmit, error } = this.props
+    const { onSubmit, error, initialValues } = this.props
 
     return (
       <div>
         {error && <Alert color="danger">{error}</Alert>}
         <Formik
-          initialValues={INITIAL_VALUES}
+          initialValues={initialValues}
           validate={validateInputs}
           onSubmit={onSubmit}
         >
@@ -67,8 +58,8 @@ class PortfolioCreateForm extends React.Component {
               <Field type="text" name="location" label="Location" component={Input} />
               <Field type="text" name="position" label="Position" component={Input} />
               <Field type="textarea" name="description" label="Description" component={Input} />
-              <Field name="startDate" label="Start Date" component={Date} />
-              <Field name="endDate" label="End Date" component={Date} />
+              <Field initialDate={initialValues.startDate} name="startDate" label="Start Date" component={Date} />
+              <Field initialDate={initialValues.endDate} name="endDate" label="End Date" component={Date} />
               <Button color="primary" type="submit" disabled={isSubmitting}>
                 Create
               </Button>

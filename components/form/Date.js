@@ -10,20 +10,21 @@ import { FormGroup, Label, FormFeedback } from 'reactstrap'
 export default class DateInput extends React.Component {
   constructor(props) {
     super(props);
+    const dateValue = props.initialDate ? moment(props.initialDate) : moment()
     this.state = {
-      dateValue: moment()
+      dateValue
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    const { setFieldValue, setFieldTouched } = this.props.form
-    const { name } = this.props.field
-    const { dateValue } = this.state
+  // componentDidMount() {
+  //   const { setFieldValue, setFieldTouched } = this.props.form
+  //   const { name } = this.props.field
+  //   const { dateValue } = this.state
 
-    setFieldValue(name, dateValue, true)
-    setFieldTouched(name, true, true)
-  }
+  //   setFieldValue(name, dateValue, true)
+  //   setFieldTouched(name, true, true)
+  // }
 
   handleChange(date) {
     const { setFieldValue, setFieldTouched } = this.props.form
