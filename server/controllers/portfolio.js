@@ -13,13 +13,22 @@ exports.getPortfolios = (req, res) => {
 exports.getPortfolioById = (req, res) => {
   const portfolioId = req.params.id
 
-  Portfolio.findById(portfolioId, (err, portfolio) => {
-    if (err) {
-      return res.status(422).send(err)
-    }
+  Portfolio.findById(portfolioId)
+          .select('-__v')
+          .exec((err, portfolio) => {
+            if (err) {
+              return res.status(422).send(err)
+            }
+        
+            return res.json(portfolio)
+          })
+  // Portfolio.findById(portfolioId, (err, portfolio) => {
+  //   if (err) {
+  //     return res.status(422).send(err)
+  //   }
 
-    return res.json(portfolio)
-  })
+  //   return res.json(portfolio)
+  // })
 }
 
 exports.savePortfolio = (req, res) => {

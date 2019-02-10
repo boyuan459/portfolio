@@ -61,7 +61,7 @@ class PortfolioCreateForm extends React.Component {
               <Field initialDate={initialValues.startDate} name="startDate" label="Start Date" component={Date} />
               <Field initialDate={initialValues.endDate} name="endDate" label="End Date" component={Date} />
               <Button color="primary" type="submit" disabled={isSubmitting}>
-                Create
+                Save
               </Button>
             </Form>
           )}

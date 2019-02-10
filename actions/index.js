@@ -59,3 +59,9 @@ export const getPortfolioById = async (id, req) => {
   return await axiosInstance.get(`/portfolios/${id}`)
               .then(response => response.data)
 }
+
+export const updatePortfolio = async (portfolio) => {
+  return await axiosInstance.patch(`/portfolios/${portfolio._id}`, portfolio, setAuthHeader())
+              .then(res => res.data)
+              .catch(error => rejectPromise(error))
+}
