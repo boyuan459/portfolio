@@ -3,6 +3,14 @@
   padding: 150px 0 0;
   background-color: $base-page-white;
 
+  .portfolio-actions-btn {
+    margin-bottom: 15px;
+  }
+
+  .portfolio-edit-btn {
+    margin-right: 10px;
+  }
+
   .portfolio-card {
     background-image: linear-gradient(45deg, #4e54c8 0%, #8f94fb 100%);
     border: none;

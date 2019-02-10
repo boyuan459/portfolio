@@ -34,7 +34,6 @@ class PortfolioEdit extends React.Component {
 
   savePortfolio(values, { setSubmitting}) {
     setSubmitting(true)
-    debugger
     console.log('Create portfolio ',values)
     updatePortfolio(values)
     .then(data => {

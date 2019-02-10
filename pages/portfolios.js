@@ -3,7 +3,7 @@ import { Card, CardHeader, CardText, CardBody,
   CardTitle, Button, Row, Col } from 'reactstrap'
 import BaseLayout from '../components/layouts/BaseLayout'
 import { getPortfolios } from '../actions'
-import {Link} from '../routes'
+import { Router } from '../routes'
 import BasePage from '../components/BasePage'
 
 class Portfolio extends React.Component {
@@ -23,7 +23,7 @@ class Portfolio extends React.Component {
   }
 
   renderPortfolios() {
-    const { portfolios } = this.props;
+    const { portfolios, auth: { isAuthenticated, isSiteOwner } } = this.props;
     return (
       <Row>
         {portfolios.map((item,idx) => (
@@ -35,6 +35,15 @@ class Portfolio extends React.Component {
                 <CardTitle className="portfolio-card-title">{item.title}</CardTitle>
                 <CardText className="portfolio-card-text">{item.description}</CardText>
                 <div className="readmore"></div>
+                {
+                  isAuthenticated && isSiteOwner ? 
+                  (
+                    <React.Fragment>
+                      <Button onClick={() => this.editPortfolio(item)} className="portfolio-edit-btn">Edit</Button>
+                      <Button>Delete</Button>
+                    </React.Fragment>
+                  ): null
+                }
               </CardBody>
             </Card>
           </Col>
@@ -43,11 +52,30 @@ class Portfolio extends React.Component {
     )
   }
 
+  editPortfolio = (portfolio) => {
+    console.log(portfolio)
+    Router.pushRoute(`/portfolios/${portfolio._id}/edit`)
+  }
+
+  createPortfolio = () => {
+    Router.pushRoute('/portfolioNew')
+  }
+
   render() {
     const { auth } = this.props
     return (
       <BaseLayout {...auth}>
         <BasePage className="portfolio-page">
+        {
+          auth.isAuthenticated && auth.isSiteOwner ? 
+          (
+            <Row className="portfolio-actions-btn">
+              <Col md={1}>
+                <Button onClick={this.createPortfolio}>Create Portfolio</Button>
+              </Col>
+            </Row>
+          ) : null
+        }
         {this.renderPortfolios()}
         </BasePage>
       </BaseLayout>
