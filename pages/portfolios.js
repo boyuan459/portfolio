@@ -70,7 +70,7 @@ class Portfolio extends React.Component {
           auth.isAuthenticated && auth.isSiteOwner ? 
           (
             <Row className="portfolio-actions-btn">
-              <Col md={1}>
+              <Col md={2}>
                 <Button onClick={this.createPortfolio}>Create Portfolio</Button>
               </Col>
             </Row>

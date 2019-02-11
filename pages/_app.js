@@ -15,7 +15,7 @@ export default class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx)
     }
 
-    const isSiteOwner = user[namespace + '/role'] === 'siteOwner'
+    const isSiteOwner = !!user && user[namespace + '/role'] === 'siteOwner'
 
     const auth = { user, isAuthenticated: !!user, isSiteOwner }
     return { pageProps, auth }
