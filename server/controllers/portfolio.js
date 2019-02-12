@@ -1,13 +1,15 @@
 const Portfolio = require('../models/portfolio')
 
 exports.getPortfolios = (req, res) => {
-  Portfolio.find({}, (err, portfolios) => {
-    if (err) {
-      return res.status(422).send(err)
-    }
-
-    return res.json(portfolios)
-  })
+  Portfolio.find({})
+          .sort({'startDate': -1})
+          .exec((err, portfolios) => {
+            if (err) {
+              return res.status(422).send(err)
+            }
+        
+            return res.json(portfolios)
+          })
 }
 
 exports.getPortfolioById = (req, res) => {
