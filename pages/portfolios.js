@@ -5,6 +5,8 @@ import BaseLayout from '../components/layouts/BaseLayout'
 import { getPortfolios } from '../actions'
 import { Router } from '../routes'
 import BasePage from '../components/BasePage'
+import PorftolioCard from '../components/portfolios/PortfolioCard'
+import PortfolioCard from '../components/portfolios/PortfolioCard';
 
 class Portfolio extends React.Component {
   static async getInitialProps({req}) {
@@ -28,24 +30,17 @@ class Portfolio extends React.Component {
       <Row>
         {portfolios.map((item,idx) => (
           <Col key={idx} md="4">
-            <Card className="portfolio-card">
-              <CardHeader className="portfolio-card-header">{item.position}</CardHeader>
-              <CardBody>
-                <p className="portfolio-card-city">{item.location}</p>
-                <CardTitle className="portfolio-card-title">{item.title}</CardTitle>
-                <CardText className="portfolio-card-text">{item.description}</CardText>
-                <div className="readmore"></div>
-                {
-                  isAuthenticated && isSiteOwner ? 
+            <PortfolioCard portfolio={item}>
+              {
+                isAuthenticated && isSiteOwner ?
                   (
                     <React.Fragment>
                       <Button onClick={() => this.editPortfolio(item)} className="portfolio-edit-btn">Edit</Button>
                       <Button>Delete</Button>
                     </React.Fragment>
-                  ): null
-                }
-              </CardBody>
-            </Card>
+                  ) : null
+              }
+            </PortfolioCard>
           </Col>
           ))}
       </Row>
